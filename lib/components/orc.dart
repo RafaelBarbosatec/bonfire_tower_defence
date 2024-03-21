@@ -2,14 +2,15 @@ import 'package:bonfire/bonfire.dart';
 import 'package:bonfire_defense/util/character_spritesheet.dart';
 import 'package:flutter/widgets.dart';
 
-class Orc extends SimpleEnemy with PathFinding, UseLifeBar {
+class Orc extends SimpleEnemy with PathFinding, UseLifeBar, HasTimeScale {
+  static const _speeedDefault = 30.0;
   final List<Vector2> path;
   Orc({
     required super.position,
     required this.path,
   }) : super(
           size: Vector2.all(32),
-          speed: 30,
+          speed: _speeedDefault,
           animation: CharacterSpritesheet(fileName: 'orc.png').getAnimation(),
         ) {
     setupPathFinding(
@@ -51,9 +52,13 @@ class Orc extends SimpleEnemy with PathFinding, UseLifeBar {
 
   @override
   void receiveDamage(AttackFromEnum attacker, double damage, identify) {
+    timeScale = 0.5;
     animation?.playOnceOther(
       'hurt-${lastDirection.name}',
       runToTheEnd: true,
+      onFinish: () {
+        timeScale = 1.0;
+      },
     );
     super.receiveDamage(attacker, damage, identify);
   }

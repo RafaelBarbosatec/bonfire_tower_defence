@@ -1,14 +1,8 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:bonfire_defense/game.dart';
 import 'package:bonfire_defense/util/character_spritesheet.dart';
-import 'package:bonfire_defense/util/defenders.dart';
-import 'package:bonfire_defense/util/end_drag_in_tile.dart';
-import 'package:flutter/material.dart';
+import 'package:bonfire_defense/util/defender.dart';
 
-class Archer extends Defender with DragGesture, EndDragInTile {
-  bool _showVision = true;
-  Paint drawVisionPaint = Paint()..color = Colors.cyan.withOpacity(0.2);
-
+class Archer extends Defender {
   Archer({required super.position})
       : super(
           size: Vector2.all(32),
@@ -16,6 +10,7 @@ class Archer extends Defender with DragGesture, EndDragInTile {
             fileName: 'archer.png',
           ).getAnimation(),
           initDirection: Direction.down,
+          visionTile: 2,
         );
 
   @override
@@ -32,21 +27,6 @@ class Archer extends Defender with DragGesture, EndDragInTile {
     super.update(dt);
   }
 
-  @override
-  void render(Canvas canvas) {
-    if (_showVision) {
-      canvas.drawCircle(
-        (size / 2).toOffset(),
-        radiusVision,
-        drawVisionPaint,
-      );
-    }
-
-    super.render(canvas);
-  }
-
-  double get radiusVision => BonfireDefense.tileSize * 2.5;
-
   void _executeAttack(Enemy enemy) {
     final enemyDirection = getComponentDirectionFromMe(enemy);
     animation?.playOnceOther(
@@ -61,10 +41,5 @@ class Archer extends Defender with DragGesture, EndDragInTile {
       30,
       null,
     );
-  }
-
-  @override
-  void showRadiusVision(bool show) {
-    _showVision = show;
   }
 }
