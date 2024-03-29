@@ -1,5 +1,7 @@
 # Bonfire Tower Defense
 
+![](imgs/capa-tutorial.png)
+
 Projeto criando durante tutorial disponivel no [Youtube](https://www.youtube.com/watch?v=wkeJZVglboA&list=PLv1_7bM0w6JNKnSZ3MCvVoVB297B9DaAl)
 
 ## Getting Started

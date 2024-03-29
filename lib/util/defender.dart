@@ -1,7 +1,7 @@
 import 'dart:ui' as ui;
 
 import 'package:bonfire/bonfire.dart';
-import 'package:bonfire_defense/game.dart';
+import 'package:bonfire_defense/pages/game/game.dart';
 import 'package:bonfire_defense/util/end_drag_in_tile.dart';
 import 'package:flutter/material.dart';
 

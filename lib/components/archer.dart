@@ -17,7 +17,7 @@ class Archer extends Defender {
   void update(double dt) {
     seeComponentType<Enemy>(
       observed: (enemies) {
-        if (checkInterval('attack', 1000, dt)) {
+        if (checkInterval('attack', 1500, dt)) {
           _executeAttack(enemies.first);
         }
       },

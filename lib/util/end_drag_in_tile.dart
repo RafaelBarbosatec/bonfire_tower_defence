@@ -1,5 +1,5 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:bonfire_defense/game.dart';
+import 'package:bonfire_defense/pages/game/game.dart';
 
 mixin EndDragInTile on DragGesture {
   @override
