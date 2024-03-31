@@ -1,9 +1,13 @@
+import 'package:bonfire/bonfire.dart';
 import 'package:bonfire_defense/pages/game/game_route.dart';
 import 'package:bonfire_defense/pages/menu/menu_route.dart';
 import 'package:bonfire_defense/pages/stages/stages_route.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Flame.device.fullScreen();
+  Flame.device.setLandscape();
   runApp(const MyApp());
 }
 

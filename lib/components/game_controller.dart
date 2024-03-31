@@ -1,8 +1,10 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:bonfire_defense/components/archer.dart';
 import 'package:bonfire_defense/components/end_game_sensor.dart';
+import 'package:bonfire_defense/components/knight.dart';
 import 'package:bonfire_defense/components/orc.dart';
 import 'package:bonfire_defense/pages/game/game.dart';
+import 'package:bonfire_defense/pages/stages/stages_route.dart';
 import 'package:bonfire_defense/util/defender.dart';
 import 'package:bonfire_defense/util/stage_config.dart';
 import 'package:bonfire_defense/widgets/start_button.dart';
@@ -80,9 +82,20 @@ class GameController extends GameComponent {
   void showDialogEndGame(String text) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
           title: Text(text),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).popUntil(
+                  (route) => route.settings.name == StagesRoute.routeName,
+                );
+              },
+              child: const Text('OK'),
+            ),
+          ],
         );
       },
     );
@@ -96,6 +109,16 @@ class GameController extends GameComponent {
         case DefenderType.arch:
           gameRef.add(
             Archer(
+              position: Vector2(
+                count * 1 * BonfireDefense.tileSize - 8,
+                1 * BonfireDefense.tileSize - 8,
+              ),
+            ),
+          );
+          break;
+        case DefenderType.knight:
+          gameRef.add(
+            Knight(
               position: Vector2(
                 count * 1 * BonfireDefense.tileSize - 8,
                 1 * BonfireDefense.tileSize - 8,

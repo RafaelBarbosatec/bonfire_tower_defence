@@ -9,10 +9,12 @@ abstract class Defender extends SimpleAlly with DragGesture, EndDragInTile {
   final int visionTile;
   bool _showVision = true;
   late Paint drawVisionPaint;
+  final Color colorVision;
   Defender({
     required super.position,
     required super.size,
     required this.visionTile,
+    this.colorVision = Colors.cyan,
     super.animation,
     super.initDirection,
   }) {
@@ -22,7 +24,7 @@ abstract class Defender extends SimpleAlly with DragGesture, EndDragInTile {
         radiusVision,
         [
           Colors.transparent,
-          Colors.cyan.withOpacity(0.4),
+          colorVision.withOpacity(0.4),
         ],
       );
   }

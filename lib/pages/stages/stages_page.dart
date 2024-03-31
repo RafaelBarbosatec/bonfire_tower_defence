@@ -8,6 +8,9 @@ class StagesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Stages'),
+      ),
       backgroundColor: const Color(0xff85a643),
       body: Center(
         child: ListView(

@@ -20,4 +20,4 @@ class StageConfig {
 
 enum EnemyType { orc }
 
-enum DefenderType { arch }
+enum DefenderType { arch, knight }

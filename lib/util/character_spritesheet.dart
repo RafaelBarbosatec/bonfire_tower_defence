@@ -16,24 +16,38 @@ class CharacterSpritesheet {
       runUp: _getRunUp,
       runDown: _getRunDown,
       others: {
-        'attack-range-down': _getRangeDown,
-        'attack-range-downRight': _getRangeDownRight,
-        'attack-range-right': _getRangeRight,
-        'attack-range-upRight': _getRangeUpRight,
-        'attack-range-up': _getRangeUp,
-        'attack-range-upLeft': _getRangeUpLeft,
-        'attack-range-left': _getRangeLeft,
-        'attack-range-downLeft': _getRangeDownLeft,
-        'hurt-down': _getHurtDown,
-        'hurt-downRight': _getHurtDownRight,
-        'hurt-right': _getHurtRight,
-        'hurt-upRight': _getHurtUpRight,
-        'hurt-up': _getHurtUp,
-        'hurt-upLeft': _getHurtUpLeft,
-        'hurt-left': _getHurtLeft,
-        'hurt-downLeft': _getHurtDownLeft,
+        ..._getRangeAttack(),
+        ..._getMeeleAttack(),
+        ..._getHurt(),
       },
     );
+  }
+
+  Map<String, Future<SpriteAnimation>> _getHurt() {
+    final hurt = _getAnimations(count: 3, startXPosition: 20, stepTime: 0.1);
+    Map<String, Future<SpriteAnimation>> animation = {};
+    for (var direction in Direction.values) {
+      animation['hurt-${direction.name}'] = hurt[direction]!;
+    }
+    return animation;
+  }
+
+  Map<String, Future<SpriteAnimation>> _getRangeAttack() {
+    final range = _getAnimations(count: 4, startXPosition: 8);
+    Map<String, Future<SpriteAnimation>> animation = {};
+    for (var direction in Direction.values) {
+      animation['attack-range-${direction.name}'] = range[direction]!;
+    }
+    return animation;
+  }
+
+  Map<String, Future<SpriteAnimation>> _getMeeleAttack() {
+    final meele = _getAnimations(count: 4, startXPosition: 4);
+    Map<String, Future<SpriteAnimation>> animation = {};
+    for (var direction in Direction.values) {
+      animation['attack-meele-${direction.name}'] = meele[direction]!;
+    }
+    return animation;
   }
 
   Future<SpriteAnimation> get _getIdleRight => SpriteAnimation.load(
@@ -86,163 +100,51 @@ class CharacterSpritesheet {
         ),
       );
 
-  Future<SpriteAnimation> get _getRangeDown => SpriteAnimation.load(
-        path,
-        SpriteAnimationData.sequenced(
-          amount: 4,
-          stepTime: 0.2,
-          textureSize: Vector2.all(_size),
-          texturePosition: Vector2(8 * _size, 0),
-        ),
-      );
+  Map<Direction, Future<SpriteAnimation>> _getAnimations({
+    required int startXPosition,
+    required int count,
+    double stepTime = 0.2,
+  }) {
+    Map<Direction, Future<SpriteAnimation>> map = {};
+    Vector2 textureSize = Vector2.all(_size);
+    double xPosition = startXPosition * textureSize.x;
+    double yPosition = 0;
 
-  Future<SpriteAnimation> get _getRangeDownRight => SpriteAnimation.load(
+    List.generate(8, (index) {
+      yPosition = index * textureSize.y;
+      map[_getDirectionByIndex(index)] = SpriteAnimation.load(
         path,
         SpriteAnimationData.sequenced(
-          amount: 4,
-          stepTime: 0.2,
-          textureSize: Vector2.all(_size),
-          texturePosition: Vector2(8 * _size, _size),
+          amount: count,
+          stepTime: stepTime,
+          textureSize: textureSize,
+          texturePosition: Vector2(xPosition, yPosition),
         ),
       );
+    });
+    return map;
+  }
 
-  Future<SpriteAnimation> get _getRangeRight => SpriteAnimation.load(
-        path,
-        SpriteAnimationData.sequenced(
-          amount: 4,
-          stepTime: 0.2,
-          textureSize: Vector2.all(_size),
-          texturePosition: Vector2(8 * _size, 2 * _size),
-        ),
-      );
-
-  Future<SpriteAnimation> get _getRangeUpRight => SpriteAnimation.load(
-        path,
-        SpriteAnimationData.sequenced(
-          amount: 4,
-          stepTime: 0.2,
-          textureSize: Vector2.all(_size),
-          texturePosition: Vector2(8 * _size, 3 * _size),
-        ),
-      );
-
-  Future<SpriteAnimation> get _getRangeUp => SpriteAnimation.load(
-        path,
-        SpriteAnimationData.sequenced(
-          amount: 4,
-          stepTime: 0.2,
-          textureSize: Vector2.all(_size),
-          texturePosition: Vector2(8 * _size, 4 * _size),
-        ),
-      );
-
-  Future<SpriteAnimation> get _getRangeUpLeft => SpriteAnimation.load(
-        path,
-        SpriteAnimationData.sequenced(
-          amount: 4,
-          stepTime: 0.2,
-          textureSize: Vector2.all(_size),
-          texturePosition: Vector2(8 * _size, 5 * _size),
-        ),
-      );
-
-  Future<SpriteAnimation> get _getRangeLeft => SpriteAnimation.load(
-        path,
-        SpriteAnimationData.sequenced(
-          amount: 4,
-          stepTime: 0.2,
-          textureSize: Vector2.all(_size),
-          texturePosition: Vector2(8 * _size, 6 * _size),
-        ),
-      );
-
-  Future<SpriteAnimation> get _getRangeDownLeft => SpriteAnimation.load(
-        path,
-        SpriteAnimationData.sequenced(
-          amount: 4,
-          stepTime: 0.2,
-          textureSize: Vector2.all(_size),
-          texturePosition: Vector2(8 * _size, 7 * _size),
-        ),
-      );
-
-  Future<SpriteAnimation> get _getHurtDown => SpriteAnimation.load(
-        path,
-        SpriteAnimationData.sequenced(
-          amount: 3,
-          stepTime: 0.1,
-          textureSize: Vector2.all(_size),
-          texturePosition: Vector2(20 * _size, 0),
-        ),
-      );
-
-  Future<SpriteAnimation> get _getHurtDownRight => SpriteAnimation.load(
-        path,
-        SpriteAnimationData.sequenced(
-          amount: 3,
-          stepTime: 0.1,
-          textureSize: Vector2.all(_size),
-          texturePosition: Vector2(20 * _size, _size),
-        ),
-      );
-
-  Future<SpriteAnimation> get _getHurtRight => SpriteAnimation.load(
-        path,
-        SpriteAnimationData.sequenced(
-          amount: 3,
-          stepTime: 0.1,
-          textureSize: Vector2.all(_size),
-          texturePosition: Vector2(20 * _size, 2 * _size),
-        ),
-      );
-
-  Future<SpriteAnimation> get _getHurtUpRight => SpriteAnimation.load(
-        path,
-        SpriteAnimationData.sequenced(
-          amount: 3,
-          stepTime: 0.1,
-          textureSize: Vector2.all(_size),
-          texturePosition: Vector2(20 * _size, 3 * _size),
-        ),
-      );
-
-  Future<SpriteAnimation> get _getHurtUp => SpriteAnimation.load(
-        path,
-        SpriteAnimationData.sequenced(
-          amount: 3,
-          stepTime: 0.1,
-          textureSize: Vector2.all(_size),
-          texturePosition: Vector2(20 * _size, 4 * _size),
-        ),
-      );
-
-  Future<SpriteAnimation> get _getHurtUpLeft => SpriteAnimation.load(
-        path,
-        SpriteAnimationData.sequenced(
-          amount: 3,
-          stepTime: 0.1,
-          textureSize: Vector2.all(_size),
-          texturePosition: Vector2(20 * _size, 5 * _size),
-        ),
-      );
-
-  Future<SpriteAnimation> get _getHurtLeft => SpriteAnimation.load(
-        path,
-        SpriteAnimationData.sequenced(
-          amount: 3,
-          stepTime: 0.1,
-          textureSize: Vector2.all(_size),
-          texturePosition: Vector2(20 * _size, 6 * _size),
-        ),
-      );
-
-  Future<SpriteAnimation> get _getHurtDownLeft => SpriteAnimation.load(
-        path,
-        SpriteAnimationData.sequenced(
-          amount: 3,
-          stepTime: 0.1,
-          textureSize: Vector2.all(_size),
-          texturePosition: Vector2(20 * _size, 7 * _size),
-        ),
-      );
+  Direction _getDirectionByIndex(int index) {
+    switch (index) {
+      case 0:
+        return Direction.down;
+      case 1:
+        return Direction.downRight;
+      case 2:
+        return Direction.right;
+      case 3:
+        return Direction.upRight;
+      case 4:
+        return Direction.up;
+      case 5:
+        return Direction.upLeft;
+      case 6:
+        return Direction.left;
+      case 7:
+        return Direction.downLeft;
+      default:
+        return Direction.down;
+    }
+  }
 }
