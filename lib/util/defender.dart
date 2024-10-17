@@ -50,4 +50,15 @@ abstract class Defender extends SimpleAlly with DragGesture, EndDragInTile {
 
     super.render(canvas);
   }
+
+  @override
+  Future<void> onLoad() {
+    add(
+      RectangleHitbox(
+        size: size / 2,
+        position: size / 4,
+      ),
+    );
+    return super.onLoad();
+  }
 }
