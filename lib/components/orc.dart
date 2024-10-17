@@ -17,7 +17,7 @@ class Orc extends SimpleEnemy with PathFinding, UseLifeBar, HasTimeScale {
       linePathEnabled: false,
     );
     setupLifeBar(
-      barLifeDrawPosition: BarLifeDrawPorition.bottom,
+      barLifeDrawPosition: BarLifeDrawPosition.bottom,
       showLifeText: false,
       borderRadius: BorderRadius.circular(20),
       size: Vector2(16, 4),
@@ -28,8 +28,8 @@ class Orc extends SimpleEnemy with PathFinding, UseLifeBar, HasTimeScale {
 
   @override
   void onMount() {
-    moveAlongThePath(path);
     super.onMount();
+    moveAlongThePath(path);
   }
 
   @override
@@ -45,13 +45,13 @@ class Orc extends SimpleEnemy with PathFinding, UseLifeBar, HasTimeScale {
   }
 
   @override
-  void die() {
+  void onDie() {
     removeFromParent();
-    super.die();
+    super.onDie();
   }
 
   @override
-  void receiveDamage(AttackFromEnum attacker, double damage, identify) {
+  void onReceiveDamage(AttackOriginEnum attacker, double damage, identify) {
     timeScale = 0.5;
     animation?.playOnceOther(
       'hurt-${lastDirection.name}',
@@ -60,6 +60,6 @@ class Orc extends SimpleEnemy with PathFinding, UseLifeBar, HasTimeScale {
         timeScale = 1.0;
       },
     );
-    super.receiveDamage(attacker, damage, identify);
+    super.onReceiveDamage(attacker, damage, identify);
   }
 }

@@ -30,7 +30,7 @@ class _BonfireDefenseState extends State<BonfireDefense> {
   Widget build(BuildContext context) {
     return BonfireWidget(
       map: WorldMapByTiled(
-        TiledReader.asset(widget.config.tiledMapPath),
+        WorldMapReader.fromAsset(widget.config.tiledMapPath),
         objectsBuilder: {
           'endGame': (properties) {
             return EndGameSensor(

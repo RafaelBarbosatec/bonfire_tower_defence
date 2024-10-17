@@ -36,8 +36,8 @@ class Archer extends Defender {
   }
 
   void _executeDamage(Enemy enemy) {
-    enemy.receiveDamage(
-      AttackFromEnum.PLAYER_OR_ALLY,
+    enemy.handleAttack(
+      AttackOriginEnum.PLAYER_OR_ALLY,
       15,
       null,
     );
